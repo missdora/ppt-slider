@@ -104,14 +104,14 @@
   };
   PPTSlider.prototype.slideTo = function (index) {
     var width = this.windowSize.width;//$(window).width();
-    if (index < this.pageCount || index > -1) {
-      this.curIndex = index;
-      this.nav.find('span').text((index + 1) + ' / ' + this.pageCount);
-      this.setCSS3(this.sliderContainer, 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + (0 - width * index) + 'px, 0px, 0px)');
-      this.pages.removeClass('current');
-      this.pages.eq(index).addClass('current');
-      location.hash = '#' + (index + 1);
-    }
+    index = Math.max(index, 0);
+    index = Math.min(index, this.pageCount - 1);
+    this.curIndex = index;
+    this.nav.find('span').text((index + 1) + ' / ' + this.pageCount);
+    this.setCSS3(this.sliderContainer, 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + (0 - width * index) + 'px, 0px, 0px)');
+    this.pages.removeClass('current');
+    this.pages.eq(index).addClass('current');
+    location.hash = '#' + (index + 1);
   };
   PPTSlider.prototype.updatePageNo = function () {};
   PPTSlider.prototype.resize = function () {
