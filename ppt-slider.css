@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform-origin: 0 0;
+  font-family: "微软雅黑", "Microsoft YaHei", SimHei;
+  overflow: hidden;
+ /* background: black;*/
+}
+.ppt-slider {
+  position: relative;
+  -webkit-transform-origin: 0 0;
+  -webkit-transition: all 500ms ease-in-out 0ms;
+  height: 100%;
+}
+
+.ppt-slider .slider-container {
+  -webkit-transform-origin: 0 0;
+  -webkit-transition: all 500ms ease-in-out 0ms;
+  position: absolute;
+}
+
+.ppt-slider  section {
+  -webkit-transform-origin: 0 0;
+  position: absolute;
+  color: #5bc1e9;
+  background: white;
+  -webkit-transition: all 500ms ease-in-out 0ms;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .5);
+  cursor: pointer;
+}
+
+.ppt-slider section.current {
+  background: #5bc1e9;
+  color: white;
+}
+
+.ppt-slider .nav {
+  position: absolute;
+  background: #666;
+  font-size: 12px;
+  border-radius: 5px;
+  height: 20px;
+  line-height: 20px;
+  color: white;
+  padding: 5px 10px;
+}
+
+.ppt-slider .preview {
+  color: white;
+}
+
+.copyright {
+  position: fixed;
+  text-align: center;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: #666;
+}
+.copyright a {
+  color: #666;
+}
