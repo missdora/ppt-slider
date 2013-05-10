@@ -1,21 +1,21 @@
 (function ($) {
   function PPTSlider (ele) {
-    if ($.browser.msie && $.browser.version < 9) {
-      alert('hey, no ie < 9 please');
-      return;
-    }
 
     this.slider = ele;
     this.curIndex = 0;
     this.curScale = 1;
     this.timer = null;
     this.sliderContainer = this.slider.find('.slider-container');
-    this.pages = this.slider.find('section');
+    this.pages = this.slider.find('div.section');
     this.pageCount = this.pages.length;
     this.windowSize = {
       width: $(window).width(),
       height: $(window).height()
     };
+
+    if ($.browser.msie && $.browser.version < 9) {
+      this.noCss3 = true;
+    }
 
     this.init();
   }
@@ -27,7 +27,7 @@
 
     this.pages.width(pageWidth);
     this.pages.height(pageHeight);
-    this.slider.append('<div class="nav"><span class="page-no"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="preview">Show Preview</a></div>');
+    this.slider.append('<div class="nav"><span class="page-no"></span>' +  (this.noCss3 ? '' :  '&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="preview">Show Preview</a>') + '</div>');
     this.nav = this.slider.find('.nav');
     this.setNav();
     this.showSlider();
@@ -59,7 +59,15 @@
 
   PPTSlider.prototype.setNav = function () {
     var windowSize = this.windowSize;
-    this.setCSS3(this.nav, 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(10px, ' + ($(window).height() - 40 * this.curScale) + 'px, 0px) scale(1)');
+    var pos = ($(window).height() - 40 * this.curScale);
+    if (this.noCss3) {
+      this.nav.css({
+        left: 10,
+        top: pos
+      });
+    } else {
+      this.setCSS3(this.nav, 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(10px, ' + pos + 'px, 0px) scale(1)');
+    }
   };
 
   PPTSlider.prototype.showSlider = function () {
@@ -68,7 +76,15 @@
     var posLeft = windowSize.width * 0.2;
     var posTop = windowSize.height * 0.1;
     for (var i = 0; i < this.pages.length; i++) {
-      this.setCSS3(this.pages.eq(i), 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + (windowSize.width * i + posLeft) + 'px, ' + (posTop) + 'px, 0px) scale(1)');
+      var posPages =  (windowSize.width * i + posLeft);
+      if (this.noCss3) {
+        this.pages.eq(i).css({
+          left: posPages,
+          top: posTop
+        });
+      } else {
+        this.setCSS3(this.pages.eq(i), 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + posPages + 'px, ' + posTop + 'px, 0px) scale(1)');
+      }
       this.pages.eq(i).data('page', i);
     }
   };
@@ -83,7 +99,9 @@
     for (var i = 0; i < this.pages.length; i++) {
       var rIndex = Math.floor(i / 3);
       var cIndex = i % 3;
-      this.setCSS3(this.pages.eq(i), 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + (cIndex * width * (0.07 + 0.24) + width * 0.07) + 'px, ' + (height * 0.01 + rIndex * height * (0.8 * 0.4 + 0.01)) + 'px, 0px) scale(0.4)');
+      var posX = (cIndex * width * (0.07 + 0.24) + width * 0.07);
+      var posY =  (height * 0.01 + rIndex * height * (0.8 * 0.4 + 0.01));
+      this.setCSS3(this.pages.eq(i), 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + posX + 'px, ' + posY + 'px, 0px) scale(0.4)');
     }
   };
 
@@ -108,7 +126,14 @@
     index = Math.min(index, this.pageCount - 1);
     this.curIndex = index;
     this.nav.find('span').text((index + 1) + ' / ' + this.pageCount);
-    this.setCSS3(this.sliderContainer, 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + (0 - width * index) + 'px, 0px, 0px)');
+    var pos =  (0 - width * index);
+    if (this.noCss3) {
+      this.sliderContainer.animate({
+        left: pos
+      });
+    } else {
+      this.setCSS3(this.sliderContainer, 'transform', 'rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(' + pos + 'px, 0px, 0px)');
+    }
     this.pages.removeClass('current');
     this.pages.eq(index).addClass('current');
     location.hash = '#' + (index + 1);

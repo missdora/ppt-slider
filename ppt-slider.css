@@ -22,7 +22,7 @@ body {
   position: absolute;
 }
 
-.ppt-slider  section {
+.ppt-slider  .section {
   -webkit-transform-origin: 0 0;
   position: absolute;
   color: #5bc1e9;
@@ -33,7 +33,7 @@ body {
   cursor: pointer;
 }
 
-.ppt-slider section.current {
+.ppt-slider .section.current {
   background: #5bc1e9;
   color: white;
 }
