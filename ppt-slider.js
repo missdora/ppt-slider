@@ -45,7 +45,7 @@
     });
     this.slider.delegate('a.preview', 'click', function () {
       self.showPreview();
-    }).delegate('section', 'click', function () {
+    }).delegate('.section', 'click', function () {
       var index = $(this).data('page');
       if (self.slider.hasClass('preview')) {
         self.showSlider();
